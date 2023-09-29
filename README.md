@@ -5,8 +5,7 @@ Ahh yes, LFCEDownloader.
 
 ----
 
-LFCEDownloader is a installer utility for Lambdagon's Lambda Fortress: Community Edition, this utility is based on a unleaked beta version of TF2CDownloader.
-Due to the beta code being closed-source, we cannot release LFCEDownloader Milestone Builds to this repository. Instead, go to the mod's GitHub repository releases tab.
+LFCEDownloader is a installer utility for Lambdagon's Lambda Fortress: Community Edition, this utility is based on a beta version of TF2CDownloader.
 
 ----
 

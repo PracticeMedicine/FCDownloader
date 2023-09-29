@@ -1,0 +1,1 @@
+pyinstaller lfcedownloader.spec

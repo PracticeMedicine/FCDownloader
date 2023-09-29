@@ -1,22 +1,46 @@
-# TF2CDownloader
-To end-users, this tool is the official installer and updater for Team Fortress 2 Classic. 
+## LFCEDownloader
+Ahh yes, LFCEDownloader.
 
-To programmers, this is a thin and rough script that sits on top of Aria2 and Butler to provide reasonably-efficient updating without too much complication.
-
-To other Sourcemods, this is a tool you can use for *your project* with only minor work, as the mechanism here is extremely agnostic and flexible. Get in touch with cco on our Discord if you're interested!
+***WARNING! THIS REPOSITORY HAVE THE CONTENTS OF TF2CDOWNLOADER BETA CODE AND THIS UTILITY'S BETA BUILD IS STORED IN HERE.*** 
 
 ----
 
-Requires Rich, PyZstd, TQDM, and HTTPX to build.
-
-PyInstaller is used to build this into a single-file binary. A spec file is included.
-
-For convenience in building, the Binaries folder of the repository contains prebuilt and static versions of Aria2 and Butler for Windows and Linux. Aria2 is extracted from here: https://github.com/q3aql/aria2-static-builds (aria2-1.36.0-win-64bit-build2.7z)
-
-The official build of Butler, as supplied by itch.io, is used.
+LFCEDownloader is a installer utility for Lambdagon's Lambda Fortress: Community Edition, this utility is based on a unleaked beta version of TF2CDownloader.
+Due to the beta code being closed-source, we cannot release LFCEDownloader Milestone Builds to this repository. Instead, go to the mod's GitHub repository releases tab.
 
 ----
 
-<a href="https://hosted.weblate.org/engage/tf2cdownloader/">
-<img src="https://hosted.weblate.org/widgets/tf2cdownloader/-/287x66-grey.png" alt="Translation status" />
-</a>
+## Building LFCEDownloader (for beginners and new contributors)
+SOOOOOOO, you want to build the executable?
+
+Use this crappy-ass tutorial.
+
+- Installing Python and other packages.
+  
+    First, install Python 3.11 or above. When, Python is installed, open your terminal process and then, type:
+
+  
+` pip install pyinstaller `
+
+
+` pip install pyzstd `
+
+
+` pip install httpx `
+
+
+` pip install tqdm `
+
+
+` pip install rich `
+
+ ***HEY! RUN ONE COMMAND AFTER THE ONE COMMAND YOUVE ENTERED IS FINISHED INSTALLING IDK HOW TO EXPLAIN IT!***
+
+  After the packages are done installing, let's clone the repository!
+
+- Cloning the repository
+
+     ***WIP***
+
+## Links
+[LFCEDownloader Releases](https://github.com/Lambdagon/tf_coop_lambda/releases/)

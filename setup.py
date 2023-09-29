@@ -63,7 +63,7 @@ def setup_path_script():
         else:
             vars.INSTALL_PATH = getcwd()
 
-        gui.message(_("Installation location not specified, will assume: %s") % vars.INSTALL_PATH)
+        gui.message(_("Installation location not precised, will assume: %s") % vars.INSTALL_PATH)
 
 def setup_path(manual_path):
     """
@@ -77,21 +77,21 @@ def setup_path(manual_path):
     smodsfound = isinstance(vars.INSTALL_PATH, str)
     if smodsfound is True and manual_path is not True:
         gui.message(_("Sourcemods folder was automatically found at: %s") % vars.INSTALL_PATH)
-        if gui.message_yes_no(_("Does that look correct?")):
+        if gui.message_yes_no(_("It's the recommended installation location. Would you like to install LFCE there?")):
             confirm = True
         else:
             setup_path(True)
             return
     else:
-        gui.message(_("WARNING: Steam's sourcemods folder has not been found, or you chose not to use it."))
+        gui.message(_("WARNING: Steam's sourcemods folder has not been found, or you chose not to use it. Make sure Steam is fully installed or its registry paths fixed."))
         if gui.message_yes_no(_("Would you like to extract in %s? You must move it to your sourcemods manually.") % getcwd()):
             vars.INSTALL_PATH = getcwd()
             confirm = True
         else:
-            vars.INSTALL_PATH = gui.message_dir(_("Please, enter the location in which TF2 Classic will be installed to.\n"))
+            vars.INSTALL_PATH = gui.message_dir(_("Please, enter the location in which LFCE will be installed to.\n"))
 
     if not confirm:
-        if not gui.message_yes_no(_("TF2 Classic will be installed in %s\nDo you accept?") % vars.INSTALL_PATH):
+        if not gui.message_yes_no(_("LFCE will be installed in %s\nDo you accept?") % vars.INSTALL_PATH):
             print(_("Reinitialising...\n"))
             setup_path(False)
 
@@ -102,19 +102,14 @@ def setup_binaries():
     if system() == 'Windows':
         # When we can detect that we're compiled using PyInstaller, we use their
         # suggested method of determining the location of the temporary runtime folder
-        # to point to Aria2 and Butler.
+        # to point to Aria2 and Tar.
         if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
-            vars.ARIA2C_BINARY = path.abspath(path.join(path.dirname(__file__), 'aria2c.exe'))
-            vars.BUTLER_BINARY = path.abspath(path.join(path.dirname(__file__), 'butler.exe'))
+            vars.GIT_BINARY = path.abspath(path.join(path.dirname(__file__), 'bin/git.exe'))
         else:
-            # When running as a script, we just select the Binaries folder directly for Aria2 and Butler.
-            vars.ARIA2C_BINARY = 'Binaries/aria2c.exe'
-            vars.BUTLER_BINARY = 'Binaries/butler.exe'
+            # When running as a script, we just select the Binaries folder directly for Aria2 and Arc.
+            vars.GIT_BINARY = 'Binaries/mingw64/bin/git.exe'
     else:
-        # If we're running on Linux...
-        if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
-            vars.ARIA2C_BINARY = path.abspath(path.join(path.dirname(__file__), 'aria2c'))
-            vars.BUTLER_BINARY = path.abspath(path.join(path.dirname(__file__), 'butler'))
+        if which('git') is None:
+            gui.message_end(_("You need to install Git to use this script."), 1)
         else:
-            vars.BUTLER_BINARY = 'Binaries/butler'
-            vars.ARIA2C_BINARY = 'Binaries/aria2c'
+            vars.GIT_BINARY = 'git'

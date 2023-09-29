@@ -7,39 +7,5 @@ Ahh yes, FCDownloader.
 
 FCDownloader is a installer utility for Lambdagon's Fortress Connected, this utility is based on a beta version of TF2CDownloader.
 
-----
-
-## Building FCDownloader (for beginners and new contributors)
-SOOOOOOO, you want to build the executable?
-
-Use this crappy-ass tutorial.
-
-- Installing Python and other packages.
-  
-    First, install Python 3.11 or above. When, Python is installed, open your terminal process and then, type:
-
-  
-` pip install pyinstaller `
-
-
-` pip install pyzstd `
-
-
-` pip install httpx `
-
-
-` pip install tqdm `
-
-
-` pip install rich `
-
- ***HEY! RUN ONE COMMAND AFTER THE ONE COMMAND YOUVE ENTERED IS FINISHED INSTALLING IDK HOW TO EXPLAIN IT!***
-
-  After the packages are done installing, let's clone the repository!
-
-- Cloning the repository
-
-     ***WIP***
-
 ## Links
 [FCDownloader Releases](https://github.com/Lambdagon/tf_coop_lambda/releases/)

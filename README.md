@@ -1,15 +1,15 @@
-## LFCEDownloader
-Ahh yes, LFCEDownloader.
+## FCDownloader
+Ahh yes, FCDownloader.
 
 ***WARNING! THIS REPOSITORY HAVE THE CONTENTS OF TF2CDOWNLOADER BETA CODE AND THIS UTILITY'S BETA BUILD IS STORED IN HERE.*** 
 
 ----
 
-LFCEDownloader is a installer utility for Lambdagon's Lambda Fortress: Community Edition, this utility is based on a beta version of TF2CDownloader.
+FCDownloader is a installer utility for Lambdagon's Fortress Connected, this utility is based on a beta version of TF2CDownloader.
 
 ----
 
-## Building LFCEDownloader (for beginners and new contributors)
+## Building FCDownloader (for beginners and new contributors)
 SOOOOOOO, you want to build the executable?
 
 Use this crappy-ass tutorial.
@@ -42,4 +42,4 @@ Use this crappy-ass tutorial.
      ***WIP***
 
 ## Links
-[LFCEDownloader Releases](https://github.com/Lambdagon/tf_coop_lambda/releases/)
+[FCDownloader Releases](https://github.com/Lambdagon/tf_coop_lambda/releases/)

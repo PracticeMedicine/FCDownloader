@@ -43,9 +43,9 @@ try:
     sanity_check()
     setup.setup_binaries()
     setup.setup_path(False)
-    endpath = vars.INSTALL_PATH + '/tf_coop_lambda'
+    endpath = vars.INSTALL_PATH + '/fc'
     # After this line, we have two possible paths: installing, or updating/repairing
-    if os.path.exists(vars.INSTALL_PATH + '/tf_coop_lambda/gameinfo.txt'):
+    if os.path.exists(vars.INSTALL_PATH + '/fc/gameinfo.txt'):
         if gui.message_yes_no(("It looks like the mod's already installed. Do you want to update it?")):
             downloads.pull(endpath)
             gui.message_end(_("All done!"), 0)
@@ -61,8 +61,8 @@ except Exception as ex:
         print(_("[bold red]BUILD NUMBER: 1150[/bold red]"))
         print(_("[bold red]VERSION: 1.1.0010[/bold red]"))
         print(_("[bold red]DATE: August 5 2023[/bold red]"))
-        print(_("[bold red]CODENAME: lambdagon.lfcedownloader[/bold red]"))
-        print(_("[bold red]FULL VERSION STRING: 1.1.0010.1150.lambdagon.lfcedownloader.05.08.2023[/bold red]"))
+        print(_("[bold red]CODENAME: lambdagon.fcdownloader[/bold red]"))
+        print(_("[bold red]FULL VERSION STRING: 1.1.0010.1150.lambdagon.fcdownloader.05.08.2023[/bold red]"))
         if os.environ.get("WT_SESSION"):
             print(_("[bold]You are safe to close this window."))
         else:

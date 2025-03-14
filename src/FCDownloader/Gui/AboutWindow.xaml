@@ -42,7 +42,7 @@
                            ScrollViewer.HorizontalScrollBarVisibility="Auto" 
                            Padding="4,0,4,0">
                     <Run FontWeight="Bold">Open Source components / libraries / code:</Run><LineBreak/>
-                    <Hyperlink Click="ReactiveUI_Click">ReactiveUI</Hyperlink> <Run> the by ReactiveUI team </Run>
+                    <Hyperlink Click="ReactiveUI_Click">ReactiveUI</Hyperlink> <Run> by the ReactiveUI team </Run>
                     <Run>( </Run>
                     <Hyperlink Click="ReactiveUILicense_Click">MIT</Hyperlink>
                     <Run> )</Run><LineBreak/>

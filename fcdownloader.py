@@ -13,7 +13,7 @@ from sys import argv, exit, stdin
 from rich import print
 from datetime import datetime
 from gettext import gettext as _
-import gettext
+from tkinter import messagebox
 import gui
 import downloads
 import setup
@@ -33,6 +33,9 @@ def sanity_check():
     """
     if not stdin or not stdin.isatty():
         print(_("Looks like we're running in the background. We don't want that, so we're exiting."))
+        messagebox.showwarning("FCDownloader is running in the background", 
+                               "FCDownloader is currently running on the background and it cannot forcefully show the output.\n" +
+                               "Please start FCDownloader using a terminal shell.", messagebox.OK)
         exit(1)
 
 if sys.stdout.encoding == 'ascii':
@@ -41,7 +44,7 @@ if sys.stdout.encoding == 'ascii':
 try:
     sanity_check()
     
-    if "/version" in sys.argv:
+    if "/version" in argv:
         print('Version: ' + vars.FullVersionStr)
         exit(0)
     

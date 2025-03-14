@@ -94,6 +94,8 @@ def setup_path(manual_path):
         if not gui.message_yes_no(_("Fortress Connected will be installed in %s\nDo you accept?") % vars.INSTALL_PATH):
             print(_("Reinitialising...\n"))
             setup_path(False)
+            
+    vars.FullGameInstallPath = vars.INSTALL_PATH + '/' + vars.GameName
 
 def setup_binaries():
     """

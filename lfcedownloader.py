@@ -11,6 +11,7 @@ from subprocess import run
 import sys
 from sys import argv, exit, stdin
 from rich import print
+from datetime import datetime
 from gettext import gettext as _
 import gettext
 import gui
@@ -36,16 +37,20 @@ def sanity_check():
 
 if sys.stdout.encoding == 'ascii':
     sys.stdout.reconfigure(encoding='utf-8')
-if sys.stderr.encoding == 'ascii':
-    sys.stderr.reconfigure(encoding='utf-8')
 
 try:
     sanity_check()
+    
+    if "/version" in sys.argv:
+        print('Version: ' + vars.FullVersionStr)
+        exit(0)
+    
     setup.setup_binaries()
     setup.setup_path(False)
-    endpath = vars.INSTALL_PATH + '/fc'
+    
+    endpath = vars.FullGameInstallPath
     # After this line, we have two possible paths: installing, or updating/repairing
-    if os.path.exists(vars.INSTALL_PATH + '/fc/gameinfo.txt'):
+    if os.path.exists(vars.FullGameInstallPath+'/gameinfo.txt'):
         if gui.message_yes_no(("It looks like the mod's already installed. Do you want to update it?")):
             downloads.pull(endpath)
             gui.message_end(_("All done!"), 0)
@@ -58,11 +63,10 @@ except Exception as ex:
         print(_("[italic magenta]----- Exception details above this line -----"))
         print(_("[bold red]:warning: The program has failed. Post a screenshot in #bug-reporting on the Discord or make a issue on our GitHub. :warning:[/bold red]"))
         print(_("[italic magenta]----- Application details under this line -----"))
-        print(_("[bold red]BUILD NUMBER: 1150[/bold red]"))
-        print(_("[bold red]VERSION: 1.1.0010[/bold red]"))
-        print(_("[bold red]DATE: August 5 2023[/bold red]"))
-        print(_("[bold red]CODENAME: lambdagon.fcdownloader[/bold red]"))
-        print(_("[bold red]FULL VERSION STRING: 1.1.0010.1150.lambdagon.fcdownloader.05.08.2023[/bold red]"))
+        print(_(str.format("[bold red]BUILD NUMBER: {build}[/bold red]", build=vars.VersionBuild)))
+        print(_(str.format("[bold red]VERSION: {ver_str}[/bold red]", ver_str=vars.FullVersionStr)))
+        print(_(str.format("[bold red]DATE: {cur_date}[/bold red]",datetime.today().strftime('%Y-%m-%d'))))
+        print(_(str.format("[bold red]CODENAME: {codename}[/bold red]",codename=vars.Codename)))
         if os.environ.get("WT_SESSION"):
             print(_("[bold]You are safe to close this window."))
         else:

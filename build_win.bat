@@ -1,1 +1,1 @@
-pyinstaller lfcedownloader.spec
+pyinstaller fcdownloader.spec

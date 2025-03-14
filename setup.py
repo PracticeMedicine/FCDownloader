@@ -77,7 +77,7 @@ def setup_path(manual_path):
     smodsfound = isinstance(vars.INSTALL_PATH, str)
     if smodsfound is True and manual_path is not True:
         gui.message(_("Sourcemods folder was automatically found at: %s") % vars.INSTALL_PATH)
-        if gui.message_yes_no(_("It's the recommended installation location. Would you like to install Fortress Connected there?")):
+        if gui.message_yes_no(_("It's the recommended installation location. Would you like to install " + vars.GamePrettyName + " there?")):
             confirm = True
         else:
             setup_path(True)
@@ -88,10 +88,10 @@ def setup_path(manual_path):
             vars.INSTALL_PATH = getcwd()
             confirm = True
         else:
-            vars.INSTALL_PATH = gui.message_dir(_("Please, enter the location in which Fortress Connected will be installed to.\n"))
+            vars.INSTALL_PATH = gui.message_dir(_("Please, enter the location in which " + vars.GamePrettyName + " will be installed to.\n"))
 
     if not confirm:
-        if not gui.message_yes_no(_("Fortress Connected will be installed in %s\nDo you accept?") % vars.INSTALL_PATH):
+        if not gui.message_yes_no(_(vars.GamePrettyName + " will be installed in %s\nDo you accept?") % vars.INSTALL_PATH):
             print(_("Reinitialising...\n"))
             setup_path(False)
             

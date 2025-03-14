@@ -109,7 +109,7 @@ def setup_binaries():
             vars.GIT_BINARY = path.abspath(path.join(path.dirname(__file__), 'bin/git.exe'))
         else:
             # When running as a script, we just select the Binaries folder directly for Aria2 and Arc.
-            vars.GIT_BINARY = 'Binaries/mingw64/bin/git.exe'
+            vars.GIT_BINARY = 'Binaries/cmd/git.exe'
     else:
         if which('git') is None:
             gui.message_end(_("You need to install Git to use this script."), 1)

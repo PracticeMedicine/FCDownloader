@@ -25,15 +25,15 @@ namespace AridityTeam.BetaFortressSetup
     public class ClientDefs
     {
         // assembly prefrences
-        public const string ProductTitle = "FortressInstaller";
-        public const string ProductDesc = "An open-source Git powered installer utility.";
-        public const string ProductCompany = "The Aridity Team";
+        public const string ProductTitle = "FCDownloader";
+        public const string ProductDesc = "An installer utility for Fortress Connected based on FortressInstaller.";
+        public const string ProductCompany = "PracticeMedicine";
         public const string ProductCopyright = $"Copyright (c) 2025 {ProductCompany}, all rights reserved.";
         public const string ProductVersion = $"0.0.131.0";
 
         // general preferences
-        public static string GameName = "bf";
-        public static string GamePrettyName = "Beta Fortress";
+        public static string GameName = "fc";
+        public static string GamePrettyName = "Fortress Connected";
         public static string CopyrightText = $"Copyright (c) 2025 {ProductCompany}, all rights reserved."; // to be displayed in the about box
 
         // installation preferences
@@ -44,7 +44,6 @@ namespace AridityTeam.BetaFortressSetup
             Path.Combine(ModInstallationPath, "bin"),
             Path.Combine(ModInstallationPath, "resource"),
             Path.Combine(ModInstallationPath, "scripts"),
-            Path.Combine(ModInstallationPath, "vpks"),
         };
         public static string[] FilesNeeded =
         {
@@ -72,7 +71,7 @@ namespace AridityTeam.BetaFortressSetup
             ; // SentryEnableDebugLogging
 
         // git preferences
-        public static string RepoUri = "https://github.com/AridityTeam/bf";
+        public static string RepoUri = "https://github.com/Lambdagon/fc";
         public static string RepoStableBranchName = "main";
         public static bool IsAGitRepository = true;
 

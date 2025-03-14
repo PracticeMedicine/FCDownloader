@@ -1,7 +1,16 @@
-# holy shit these stupid shits making my push even longer.
-build
-dist
-__pycache__
-.temp
-*.mo
-*.po~
+# ide-related files/folders
+.vs
+.vscode
+.idea
+*.suo
+*.user
+
+# build output
+[Rr]elease/
+[Dd]ebug/
+x64/
+x86/
+bin/
+obj/
+
+

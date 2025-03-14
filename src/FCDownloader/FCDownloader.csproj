@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows10.0.26100.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>AridityTeam.BetaFortressSetup</RootNamespace>
+    <UseWindowsForms>True</UseWindowsForms>
+    <SupportedOSPlatformVersion>10.0.26100.0</SupportedOSPlatformVersion>
+    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <SupportedPlatform Include="windows10.0.26100.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoCompleteTextBox" Version="1.7.2" />
+    <PackageReference Include="AvalonEdit" Version="6.3.0.90" />
+    <PackageReference Include="LibGit2Sharp" Version="0.31.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="9.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.2" />
+    <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="7.1.3" />
+    <PackageReference Include="ReactiveUI" Version="20.1.63" />
+    <PackageReference Include="ReactiveUI.WPF" Version="20.1.63" />
+    <PackageReference Include="Sentry" Version="5.2.0" />
+    <PackageReference Include="Sentry.Extensions.Logging" Version="5.2.0" />
+    <PackageReference Include="Sentry.Profiling" Version="5.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AridityTeam.Base\AridityTeam.Base.csproj" />
+    <ProjectReference Include="..\AridityTeam.BetaFortressClient.DatabaseManager\AridityTeam.BetaFortressSetup.DatabaseManager.csproj" />
+    <ProjectReference Include="..\AridityTeam.ElevatorProcess\AridityTeam.ElevatorProcess.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EditorConfigFiles Include=".editorconfig" />
+  </ItemGroup>
+  <ItemGroup>
+    <EditorConfigFiles Remove=".editorconfig" />
+  </ItemGroup>
+
+</Project>

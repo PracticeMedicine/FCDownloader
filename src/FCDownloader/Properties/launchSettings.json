@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "BetaFortressSetup": {
+      "commandName": "Project",
+      "commandLineArgs": "/console"
+    }
+  }
+}

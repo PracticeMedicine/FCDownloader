@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "AridityTeam.ElevatorProcess": {
+      "commandName": "Project",
+      "commandLineArgs": "/modManager /uninstall"
+    }
+  }
+}

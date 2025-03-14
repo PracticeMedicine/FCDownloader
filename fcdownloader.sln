@@ -1,0 +1,80 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.35821.62
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FCDownloader", "src\FCDownloader\FCDownloader.csproj", "{DDFA4A9D-0BEC-45C6-BDF8-FE51EEB054BE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration Files", "Configuration Files", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+	ProjectSection(SolutionItems) = preProject
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		LICENSE = LICENSE
+		README.md = README.md
+		template.editorconfig = template.editorconfig
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AridityTeam.ElevatorProcess", "src\AridityTeam.ElevatorProcess\AridityTeam.ElevatorProcess.csproj", "{02CBBB32-E854-4C73-8F76-D1A0B342B5FC}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Shareddefs", "src\shared\Shareddefs\Shareddefs.shproj", "{28DD1F9C-D8FA-4E6E-9470-87DFA6093869}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AridityTeam.Base", "src\AridityTeam.Base\AridityTeam.Base.csproj", "{83B840B7-980E-4FEC-B2D2-01E1E80EB9C5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AridityTeam.BetaFortressSetup.DatabaseManager", "src\AridityTeam.BetaFortressSetup.DatabaseManager\AridityTeam.BetaFortressSetup.DatabaseManager.csproj", "{52A9FFCB-1026-44A7-BEDE-6B744BD09006}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{B27BD30E-742E-40D1-BAFC-3069EB9F7A10}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Main", "Main", "{2F2018E3-5356-4B90-8214-212054400AC4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{6C2C3CAA-1409-4643-85A6-589F15C89755}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Base Routine Tests", "Base Routine Tests", "{4AD78A32-DA35-443C-ABDC-9AA13E515262}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AridityTeam.Base.Tests", "tests\AridityTeam.Base.Tests\AridityTeam.Base.Tests.csproj", "{689CC8C6-F010-4F09-ABD4-65447D843118}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DDFA4A9D-0BEC-45C6-BDF8-FE51EEB054BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDFA4A9D-0BEC-45C6-BDF8-FE51EEB054BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDFA4A9D-0BEC-45C6-BDF8-FE51EEB054BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDFA4A9D-0BEC-45C6-BDF8-FE51EEB054BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02CBBB32-E854-4C73-8F76-D1A0B342B5FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02CBBB32-E854-4C73-8F76-D1A0B342B5FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02CBBB32-E854-4C73-8F76-D1A0B342B5FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02CBBB32-E854-4C73-8F76-D1A0B342B5FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83B840B7-980E-4FEC-B2D2-01E1E80EB9C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83B840B7-980E-4FEC-B2D2-01E1E80EB9C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83B840B7-980E-4FEC-B2D2-01E1E80EB9C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83B840B7-980E-4FEC-B2D2-01E1E80EB9C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52A9FFCB-1026-44A7-BEDE-6B744BD09006}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52A9FFCB-1026-44A7-BEDE-6B744BD09006}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52A9FFCB-1026-44A7-BEDE-6B744BD09006}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52A9FFCB-1026-44A7-BEDE-6B744BD09006}.Release|Any CPU.Build.0 = Release|Any CPU
+		{689CC8C6-F010-4F09-ABD4-65447D843118}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{689CC8C6-F010-4F09-ABD4-65447D843118}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{689CC8C6-F010-4F09-ABD4-65447D843118}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{689CC8C6-F010-4F09-ABD4-65447D843118}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DDFA4A9D-0BEC-45C6-BDF8-FE51EEB054BE} = {2F2018E3-5356-4B90-8214-212054400AC4}
+		{02CBBB32-E854-4C73-8F76-D1A0B342B5FC} = {2F2018E3-5356-4B90-8214-212054400AC4}
+		{28DD1F9C-D8FA-4E6E-9470-87DFA6093869} = {6C2C3CAA-1409-4643-85A6-589F15C89755}
+		{83B840B7-980E-4FEC-B2D2-01E1E80EB9C5} = {B27BD30E-742E-40D1-BAFC-3069EB9F7A10}
+		{52A9FFCB-1026-44A7-BEDE-6B744BD09006} = {2F2018E3-5356-4B90-8214-212054400AC4}
+		{689CC8C6-F010-4F09-ABD4-65447D843118} = {4AD78A32-DA35-443C-ABDC-9AA13E515262}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EC7C6A72-D1E2-453E-8802-B575E3A7E223}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		src\shared\Shareddefs\Shareddefs.projitems*{28dd1f9c-d8fa-4e6e-9470-87dfa6093869}*SharedItemsImports = 13
+		src\shared\Shareddefs\Shareddefs.projitems*{83b840b7-980e-4fec-b2d2-01e1e80eb9c5}*SharedItemsImports = 5
+	EndGlobalSection
+EndGlobal

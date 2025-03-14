@@ -1,0 +1,25 @@
+{
+  "title": "Beta Fortress Client Database Config",
+  "description": "This schema is used for JSON files that are used for Beta Fortress Client's database manager.",
+  "type": "object",
+  "properties": {
+    "DatabaseName": {
+      "description": "Database name",
+      "type": "string"
+    },
+    "DatabaseVer": {
+      "description": "Database version",
+      "type": "string"
+    },
+    "Releases": {
+      "description": "Amount of your mod's releases",
+      "type": "array",
+      "prefixItems": [
+        { "type": "string" },
+        { "type": "string" },
+        { "type": "object" }
+      ]
+    }
+  },
+  "required": [ "DatabaseName", "Releases" ]
+}

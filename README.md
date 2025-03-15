@@ -4,6 +4,9 @@ Ahh yes, FCDownloader.
 > [!WARNING] 
 > THIS REPOSITORY CONTAINS THE CONTENTS OF TF2CDOWNLOADER BETA CODE THAT HAVE BEEN DISTRIBUTED BY THE FC TEAM HERE.
 
+> [!NOTE]
+> can someone pls test this on windows too? im on Arch rn :3
+
 ----
 
 ## About

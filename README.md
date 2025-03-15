@@ -11,6 +11,7 @@ Ahh yes, FCDownloader.
 
 ## About
 FCDownloader is a installer utility for Lambdagon's Fortress Connected, this utility is based on a beta version of TF2CDownloader.
+**(currently rewritten in C#)**
 
 **FCDownloader contains a portable version of Git for Windows (licensed under GNU GPLv2), see the license text: [LICENSE.txt](Binaries/LICENSE.txt)**
 

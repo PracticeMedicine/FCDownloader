@@ -8,7 +8,6 @@
     <AssemblyVersion>0.0.21.0</AssemblyVersion>
     <FileVersion>0.0.21.0</FileVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <IsPackable>false</IsPackable>
   </PropertyGroup>
   <PropertyGroup>
     <Title>Aridity Team Base Routine Library</Title>

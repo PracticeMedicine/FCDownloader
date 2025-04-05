@@ -1,0 +1,56 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>False</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace></RootNamespace>
+    <AssemblyVersion>0.0.21.0</AssemblyVersion>
+    <FileVersion>0.0.21.0</FileVersion>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Title>Aridity Team Base Routine Library (abstract types)</Title>
+    <Authors>PracticeMedicine</Authors>
+    <Description>A small-collection of low-level ("base") routines from the FortressInstaller project. (now I have added more into it.)</Description>
+    <Copyright>Copyright (c) 2025 The Aridity Team</Copyright>
+    <PackageProjectUrl>https://bitbucket.org/aridity-project-src/aridity-dotnet-libraries</PackageProjectUrl>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <IncludeContentInPack>true</IncludeContentInPack>
+    <RepositoryUrl>https://bitbucket.org/aridity-project-src/aridity-dotnet-libraries</RepositoryUrl>
+    <PackageTags>base,lowlevel,routines,idk,aridity,arid,bf,bfclient</PackageTags>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <OutputFiles Include="$(MSBuildProjectDirectory)\bin\**\*.*" Visible="false" />
+  </ItemGroup>
+
+  <Target Name="CopyOutputToBin" AfterTargets="Build">
+    <Copy SourceFiles="@(OutputFiles)" DestinationFolder="$(MSBuildProjectDirectory)\..\..\..\..\bin" />
+  </Target>
+
+  <ItemGroup>
+    <None Include="$(MSBuildProjectDirectory)\..\..\..\..\LICENSE" >
+	  <Pack>True</Pack>
+      <PackagePath></PackagePath>
+	  <Visible>True</Visible>
+    </None>
+    <None Include="$(MSBuildProjectDirectory)\..\README.md" >
+	  <Pack>True</Pack>
+      <PackagePath></PackagePath>
+	  <Visible>True</Visible>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Sentry" Version="5.4.0" />
+  </ItemGroup>
+
+</Project>

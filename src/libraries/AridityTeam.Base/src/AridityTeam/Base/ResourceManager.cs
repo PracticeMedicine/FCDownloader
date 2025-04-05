@@ -10,14 +10,14 @@ namespace AridityTeam.Base
 {
     public class ResourceManager
     {
-        private readonly ConcurrentDictionary<string, IntPtr> _cache = new ConcurrentDictionary<string, IntPtr>();
-        private readonly Memory _memory = new Memory();
+        private readonly ConcurrentDictionary<string, IntPtr> _cache = new();
+        private readonly Memory _memory = new();
         private readonly int _maxCacheSize = 100 * 1024 * 1024; // 100 MB
-        private int _currentCacheSize = 0;
+        private int _currentCacheSize;
 
         public async Task<IntPtr> LoadResourceAsync(string filePath, bool precache = false)
         {
-            if (_cache.TryGetValue(filePath, out IntPtr cachedPtr))
+            if (_cache.TryGetValue(filePath, out var cachedPtr))
             {
                 return cachedPtr; // Return cached data if available
             }
@@ -34,18 +34,16 @@ namespace AridityTeam.Base
 
         private async Task<IntPtr> LoadAndCacheResourceAsync(string filePath)
         {
-            IntPtr dataPtr = await LoadResourceFromDiskAsync(filePath);
-            if (dataPtr != IntPtr.Zero)
+            var dataPtr = await LoadResourceFromDiskAsync(filePath);
+            if (dataPtr == IntPtr.Zero) return dataPtr;
+            var dataSize = GetResourceSize(filePath);
+            if (_currentCacheSize + dataSize > _maxCacheSize)
             {
-                int dataSize = GetResourceSize(filePath);
-                if (_currentCacheSize + dataSize > _maxCacheSize)
-                {
-                    EvictOldResources(); // Free up space in the cache
-                }
-
-                _cache[filePath] = dataPtr;
-                _currentCacheSize += dataSize;
+                EvictOldResources(); // Free up space in the cache
             }
+
+            _cache[filePath] = dataPtr;
+            _currentCacheSize += dataSize;
             return dataPtr;
         }
 
@@ -53,11 +51,11 @@ namespace AridityTeam.Base
         {
             try
             {
-                byte[] data = await File.ReadAllBytesAsync(filePath);
-                if (_memory.UncheckedMalloc(data.Length, out IntPtr dataPtr))
+                var data = await File.ReadAllBytesAsync(filePath);
+                if (_memory.UncheckedMalloc(data.Length, out var dataPtr))
                 {
                     // Copy the data to the allocated memory
-                    for (int i = 0; i < data.Length; i++)
+                    for (var i = 0; i < data.Length; i++)
                     {
                         Marshal.WriteByte(dataPtr, i, data[i]);
                     }
@@ -89,9 +87,9 @@ namespace AridityTeam.Base
             // For simplicity, this example removes the first item in the cache
             foreach (var key in _cache.Keys)
             {
-                if (_cache.TryRemove(key, out IntPtr dataPtr))
+                if (_cache.TryRemove(key, out var dataPtr))
                 {
-                    int dataSize = GetResourceSize(key);
+                    var dataSize = GetResourceSize(key);
                     _currentCacheSize -= dataSize;
                     _memory.Free(dataPtr); // Free the memory
                     break;
@@ -101,9 +99,9 @@ namespace AridityTeam.Base
 
         public void FreeResource(string filePath)
         {
-            if (_cache.TryRemove(filePath, out IntPtr dataPtr))
+            if (_cache.TryRemove(filePath, out var dataPtr))
             {
-                int dataSize = GetResourceSize(filePath);
+                var dataSize = GetResourceSize(filePath);
                 _currentCacheSize -= dataSize;
                 _memory.Free(dataPtr); // Free the memory
             }
@@ -113,7 +111,7 @@ namespace AridityTeam.Base
         {
             foreach (var key in _cache.Keys)
             {
-                if (_cache.TryRemove(key, out IntPtr dataPtr))
+                if (_cache.TryRemove(key, out var dataPtr))
                 {
                     _memory.Free(dataPtr); // Free the memory
                 }

@@ -1,0 +1,29 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.35821.62
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AridityTeam.Base.Abstractions", "..\AridityTeam.Base.Abstractions\src\AridityTeam.Base.Abstractions.csproj", "{13DBCA48-A99C-4CFB-A65D-1730B2E97E1B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{ECE1533E-420F-4DA1-A400-9A236EBD832A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{13DBCA48-A99C-4CFB-A65D-1730B2E97E1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13DBCA48-A99C-4CFB-A65D-1730B2E97E1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13DBCA48-A99C-4CFB-A65D-1730B2E97E1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13DBCA48-A99C-4CFB-A65D-1730B2E97E1B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EC7C6A72-D1E2-453E-8802-B575E3A7E223}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{13DBCA48-A99C-4CFB-A65D-1730B2E97E1B} = {ECE1533E-420F-4DA1-A400-9A236EBD832A}
+	EndGlobalSection
+EndGlobal

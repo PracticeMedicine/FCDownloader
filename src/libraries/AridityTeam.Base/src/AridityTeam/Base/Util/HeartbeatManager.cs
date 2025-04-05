@@ -9,6 +9,14 @@
  *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
 using System;
 using System.Collections.Concurrent;
@@ -23,11 +31,11 @@ namespace AridityTeam.Base.Util
     /// </summary>
     public class HeartbeatManager : IDisposable
     {
-        private ObservableConcurrentBag<HeartbeatInstance?>? _allInstances;
-        private ObservableConcurrentBag<HeartbeatInstance?>? _allRunningInstances;
-        private AridLogger? _logger = null;
-        private static HeartbeatManager? _mgrInstance = null;
-        private static object _lock = new object();
+        private readonly ObservableConcurrentBag<HeartbeatInstance?>? _allInstances;
+        private readonly ObservableConcurrentBag<HeartbeatInstance?>? _allRunningInstances;
+        private readonly Logger? _logger;
+        private static HeartbeatManager? _mgrInstance;
+        private static readonly Lock Lock = new();
 
         /// <summary>
         /// Gets the existing instance of HeartbeatManager.
@@ -36,10 +44,9 @@ namespace AridityTeam.Base.Util
         {
             get
             {
-                lock(_lock)
+                lock(Lock)
                 {
-                    if (_mgrInstance == null) _mgrInstance = new HeartbeatManager();
-                    return _mgrInstance;
+                    return _mgrInstance ??= new HeartbeatManager();
                 }
             }
         }
@@ -49,13 +56,10 @@ namespace AridityTeam.Base.Util
         /// </summary>
         public HeartbeatManager()
         {
-            if (_logger == null)
-            {
-                _logger = new AridLogger(typeof(HeartbeatInstance));
-            }
+            _logger ??= new Logger();
 
-            _allInstances = new ObservableConcurrentBag<HeartbeatInstance?>();
-            _allRunningInstances = new ObservableConcurrentBag<HeartbeatInstance?>();
+            _allInstances = [];
+            _allRunningInstances = [];
 
             _allInstances.ItemAdded += Instances_OnItemAdded;
             _allRunningInstances.ItemAdded += RunningInstances_OnItemAdded;
@@ -68,7 +72,7 @@ namespace AridityTeam.Base.Util
         /// <param name="obj"></param>
         private void RunningInstances_OnItemRemoved(HeartbeatInstance? obj)
         {
-            _logger?.Info("Instance {0} is now canceled.", obj?.InstanceName);
+            _logger?.Log(LogSeverity.LogInfo, $"Instance {obj?.InstanceName} is now canceled.");
         }
 
         /// <summary>
@@ -77,7 +81,7 @@ namespace AridityTeam.Base.Util
         /// <param name="instance"></param>
         private void RunningInstances_OnItemAdded(HeartbeatInstance? instance)
         {
-            _logger?.Info("The heartbeat instance '{0}' is now running...", instance?.InstanceName);
+            _logger?.Log(LogSeverity.LogInfo, $"The heartbeat instance '{instance?.InstanceName}' is now running...");
         }
 
         /// <summary>
@@ -88,27 +92,26 @@ namespace AridityTeam.Base.Util
         {
             try
             {
-                _logger?.Info("Instance has been added:\n{0}", instance?.ToString());
+                _logger?.Log(LogSeverity.LogInfo, $"Instance has been added:\n{instance}");
 
-                lock(_lock)
+                lock(Lock)
                 {
-                    if (_allRunningInstances != null && instance != null && !_allRunningInstances.Contains(instance))
+                    if (_allRunningInstances == null || instance == null ||
+                        _allRunningInstances.Contains(instance)) return;
+                    var cts = new CancellationTokenSource();
+                    instance.CancellationToken = cts.Token;
+                    instance.CancellationTokenSource = cts;
+
+                    instance.RunningTask = Task.Run(async () =>
                     {
-                        var cts = new CancellationTokenSource();
-                        instance.CancellationToken = cts.Token;
-                        instance.CancellationTokenSource = cts;
-
-                        instance.RunningTask = Task.Run(async () =>
+                        var timer = new PeriodicTimer(TimeSpan.FromMilliseconds(instance.HeartbeatTime));
+                        while (await timer.WaitForNextTickAsync(instance.CancellationToken))
                         {
-                            var timer = new PeriodicTimer(TimeSpan.FromMilliseconds(instance.HeartbeatTime));
-                            while (await timer.WaitForNextTickAsync(instance.CancellationToken))
-                            {
-                                instance.ActionToRun.Invoke();
-                            }
-                        }, instance.CancellationToken);
+                            instance.ActionToRun.Invoke();
+                        }
+                    }, instance.CancellationToken);
 
-                        _allRunningInstances?.Add(instance);
-                    }
+                    _allRunningInstances?.Add(instance);
                 }
             }
             catch (Exception ex)
@@ -122,41 +125,29 @@ namespace AridityTeam.Base.Util
         /// </summary>
         public void CancelAllInstances(bool disposing = false)
         {
-            if(_allRunningInstances != null)
+            if (_allRunningInstances == null) return;
+            foreach (var instance in _allRunningInstances)
             {
-                foreach (var instance in _allRunningInstances)
-                {
-                    if (instance != null)
-                    {
-                        _logger?.Info("Canceling {0}...", instance?.InstanceName);
-                        instance?.CancellationTokenSource?.Cancel();
+                if (instance == null) continue;
+                _logger?.Log(LogSeverity.LogInfo, $"Canceling {instance.InstanceName}...");
+                instance.CancellationTokenSource?.Cancel();
 
-                        if (disposing == true)
-                        {
-                            _logger?.Info("Disposing instance ({0})...", instance?.InstanceName);
-                            instance?.CancellationTokenSource?.Dispose();
-                            instance?.RunningTask?.Dispose();
-                        }
-                    }
-                }
+                if (disposing != true) continue;
+                _logger?.Log(LogSeverity.LogInfo, $"Disposing instance ({instance.InstanceName})...");
+                instance.CancellationTokenSource?.Dispose();
+                instance.RunningTask?.Dispose();
             }
         }
 
         /// <summary>
-        /// Checks if an heartbeat instance is running.
+        /// Checks if a heartbeat instance is running.
         /// </summary>
         /// <param name="instanceName">Heartbeat instance name</param>
         /// <returns>Returns true if it is running.</returns>
         public bool IsHeartbeatInstanceRunning(string instanceName)
         {
-            if(_allRunningInstances != null)
-            {
-                foreach (var instance in _allRunningInstances)
-                {
-                    if (instance?.InstanceName == instanceName && !instance.CancellationToken.IsCancellationRequested) return true;
-                }
-            }
-            return false;
+            return _allRunningInstances != null && _allRunningInstances.Any(instance => instance?.InstanceName == instanceName 
+                && !instance.CancellationToken.IsCancellationRequested);
         }
         /// <summary>
         /// Checks if an existing heartbeat instance is running.
@@ -165,14 +156,8 @@ namespace AridityTeam.Base.Util
         /// <returns>Returns true if it is running.</returns>
         public bool IsHeartbeatInstanceRunning(HeartbeatInstance selectedInstance)
         {
-            if (_allRunningInstances != null)
-            {
-                foreach (var instance in _allRunningInstances)
-                {
-                    return instance != null && instance.Equals(selectedInstance) && !instance.CancellationToken.IsCancellationRequested;
-                }
-            }
-            return false;
+            return _allRunningInstances != null && _allRunningInstances.Select(instance => instance != null && instance.Equals(selectedInstance) 
+                && !instance.CancellationToken.IsCancellationRequested).FirstOrDefault();
         }
 
         /// <summary>
@@ -190,7 +175,7 @@ namespace AridityTeam.Base.Util
         // Disposes shit
         public void Dispose()
         {
-            _logger?.Info("Disposing...");
+            _logger?.Log(LogSeverity.LogInfo, "Disposing...");
             CancelAllInstances(true);
         }
     }

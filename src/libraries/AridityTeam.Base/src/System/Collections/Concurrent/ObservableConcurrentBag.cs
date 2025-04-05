@@ -9,8 +9,15 @@
  *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
-using System;
 using System.Collections.Generic;
 
 namespace System.Collections.Concurrent
@@ -26,7 +33,8 @@ namespace System.Collections.Concurrent
         public event Action<T?>? ItemAdded;
         public event Action<T?>? ItemRemoved;
 
-        public ObservableConcurrentBag() : base() {}
+        public ObservableConcurrentBag() {}
+        public ObservableConcurrentBag(IEnumerable<T?> collection) : base(collection) {}
 
         /// <summary>
         /// Adds an object to the <see cref="ObservableConcurrentBag{T}"/>.
@@ -47,8 +55,9 @@ namespace System.Collections.Concurrent
         /// <see cref="ObservableConcurrentBag{T}"/></param>
         public new bool Remove(T? item)
         {
+            if (!base.Remove(item)) return false;
             ItemRemoved?.Invoke(item);
-            return base.Remove(item);
+            return true;
         }
     }
 }

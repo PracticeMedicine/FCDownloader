@@ -9,6 +9,14 @@
  *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
 using System;
 using System.Collections.Concurrent;
@@ -19,33 +27,32 @@ namespace AridityTeam.Base.ProcessUtil
     public class MemoryPool
     {
         private readonly ConcurrentBag<IntPtr> _freeBlocks;
-        private readonly int _blockSize;
         private readonly int _initialBlockCount;
 
-        public int BlockSize => _blockSize;
+        public int BlockSize { get; }
 
         public MemoryPool(int blockSize, int initialBlockCount)
         {
-            _blockSize = blockSize;
+            BlockSize = blockSize;
             _initialBlockCount = initialBlockCount;
-            _freeBlocks = new ConcurrentBag<IntPtr>();
+            _freeBlocks = [];
 
             // Pre-allocate memory blocks
-            for (int i = 0; i < _initialBlockCount; i++)
+            for (var i = 0; i < _initialBlockCount; i++)
             {
-                _freeBlocks.Add(Marshal.AllocHGlobal(_blockSize));
+                _freeBlocks.Add(Marshal.AllocHGlobal(BlockSize));
             }
         }
 
         public IntPtr Rent()
         {
-            if (_freeBlocks.TryTake(out IntPtr block))
+            if (_freeBlocks.TryTake(out var block))
             {
                 return block; // Return a free block
             }
 
             // If no free blocks are available, allocate a new one
-            return Marshal.AllocHGlobal(_blockSize);
+            return Marshal.AllocHGlobal(BlockSize);
         }
 
         public void Return(IntPtr block)
@@ -58,7 +65,7 @@ namespace AridityTeam.Base.ProcessUtil
 
         public void Clear()
         {
-            while (_freeBlocks.TryTake(out IntPtr block))
+            while (_freeBlocks.TryTake(out var block))
             {
                 Marshal.FreeHGlobal(block); // Free all blocks in the pool
             }

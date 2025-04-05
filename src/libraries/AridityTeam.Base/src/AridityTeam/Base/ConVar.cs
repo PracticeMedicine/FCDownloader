@@ -9,66 +9,66 @@
  *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
 using System;
-using System.Xml.Linq;
 
 namespace AridityTeam.Base
 {
-    public class ConVar : IConVar
+    public abstract class ConVar : IConVar
     {
-        public object? _value = null;
-        public string? _name = null;
-        public FCVAR? _flags = null;
-        public string? _helpString = null;
-        private bool _isRegistered = false;
+        private object? _value;
+        private string? _name;
+        private Fcvar? _flags;
+        private string? _helpString;
 
-        public ConVar(string? name, object? defaultValue)
+        protected ConVar(string? name, object? defaultValue)
         {
-            Create(name, defaultValue, FCVAR.NONE, null);
+            Create(name, defaultValue, Fcvar.LogNone, null);
         }
 
-        public ConVar(string? name, object? defaultValue, FCVAR? flags)
+        protected ConVar(string? name, object? defaultValue, Fcvar? flags)
         {
             Create(name, defaultValue, flags, null);
         }
 
-        public ConVar(string? name, object? defaultValue, FCVAR? flags, string? helpString)
+        protected ConVar(string? name, object? defaultValue, Fcvar? flags, string? helpString)
         {
             Create(name, defaultValue, flags, helpString);
         }
 
         ~ConVar()
         {
-            if (_value != null)
+            if (_value is not null)
             {
                 _value = null;
             }
         }
 
-        public FCVAR? GetFlags()
+        public Fcvar? GetFlags()
         {
             return _flags;
         }
 
-        private void Create(string? name, object? defaultValue, FCVAR? flags = FCVAR.NONE, string? helpString = null)
+        private void Create(string? name, object? defaultValue, Fcvar? flags, string? helpString)
         {
             if (string.IsNullOrWhiteSpace(name)) throw new ArgumentNullException(nameof(name), "Name cannot be null or empty.");
-            if (defaultValue == null) throw new ArgumentNullException(nameof(defaultValue), "Default value cannot be null.");
 
             _name = name;
-            _value = defaultValue;
+            _value = defaultValue ?? throw new ArgumentNullException(nameof(defaultValue), "Default value cannot be null.");
             _flags = flags;
             _helpString = helpString;
 
             CommandManager.Instance.RegisterConVar(this);
         }
 
-        public bool IsRegistered
-        {
-            get => _isRegistered;
-            set => _isRegistered = value;
-        }
         public string? GetName() => _name;
         public string? GetHelpString() => _helpString;
 
@@ -94,7 +94,7 @@ namespace AridityTeam.Base
 
         public long GetLong()
         {
-            return long.TryParse(ToString(), out var result) ? result : 0; ;
+            return long.TryParse(ToString(), out var result) ? result : 0;
         }
 
         public bool GetBool()
@@ -104,9 +104,7 @@ namespace AridityTeam.Base
 
         public string? GetString()
         {
-            if (_value == null) return null;
-
-            return _value.ToString();
+            return _value?.ToString();
         }
     }
 }

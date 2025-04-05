@@ -9,6 +9,14 @@
  *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
 using System;
 using System.Collections.Concurrent;
@@ -24,16 +32,16 @@ namespace AridityTeam.Base.ProcessUtil
     /// </summary>
     public class Memory : IMemory
     {
-        private readonly RemovableConcurrentBag<IntPtr> _allocatedPointers = new RemovableConcurrentBag<IntPtr>();
+        private readonly RemovableConcurrentBag<IntPtr> _allocatedPointers = [];
         private readonly MemoryPool _memoryPool;
-        private readonly ConcurrentDictionary<IntPtr, int> _blockSizes = new ConcurrentDictionary<IntPtr, int>();
+        private readonly ConcurrentDictionary<IntPtr, int> _blockSizes = new();
 
         // Performance tracking data
-        private readonly List<long> _allocationTimes = new List<long>();
-        private readonly List<long> _deallocationTimes = new List<long>();
-        private readonly List<long> _reallocationTimes = new List<long>();
-        private long _totalAllocatedBytes = 0;
-        private long _totalFreedBytes = 0;
+        private readonly List<long> _allocationTimes = [];
+        private readonly List<long> _deallocationTimes = [];
+        private readonly List<long> _reallocationTimes = [];
+        private long _totalAllocatedBytes;
+        private readonly long _totalFreedBytes = 0;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Memory"/> class with a specified block size for the memory pool.
@@ -80,8 +88,8 @@ namespace AridityTeam.Base.ProcessUtil
 
         public IntPtr AlignedMalloc(int size, int alignment)
         {
-            IntPtr ptr = Marshal.AllocHGlobal(size + alignment);
-            IntPtr alignedPtr = (IntPtr)((long)(ptr) + alignment - 1 & ~(alignment - 1));
+            var ptr = Marshal.AllocHGlobal(size + alignment);
+            var alignedPtr = (IntPtr)((long)(ptr) + alignment - 1 & ~(alignment - 1));
             return alignedPtr;
         }
 
@@ -127,8 +135,8 @@ namespace AridityTeam.Base.ProcessUtil
             if (UncheckedMalloc(newSize, out newPtrResult))
             {
                 // Copy old memory to new memory
-                int oldSize = _blockSizes[ptr]; // Get the size of the old block
-                for (int i = 0; i < Math.Min(oldSize, newSize); i++)
+                var oldSize = _blockSizes[ptr]; // Get the size of the old block
+                for (var i = 0; i < Math.Min(oldSize, newSize); i++)
                 {
                     Marshal.WriteByte(newPtrResult, i, Marshal.ReadByte(ptr, i));
                 }

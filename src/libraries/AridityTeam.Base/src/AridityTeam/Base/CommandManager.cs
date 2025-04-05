@@ -9,6 +9,14 @@
  *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
 using System;
 using System.Collections.Concurrent;
@@ -25,7 +33,7 @@ namespace AridityTeam.Base
         private readonly ObservableConcurrentBag<IConVar> _conVars;
 
         private static CommandManager? _instance;
-        private static readonly object _threadLocker = new object();
+        private static readonly object ThreadLocker = new();
 
         /// <summary>
         /// Gets the existing instance of <see cref="CommandManager"/>.
@@ -34,7 +42,7 @@ namespace AridityTeam.Base
         {
             get
             {
-                lock (_threadLocker)
+                lock (ThreadLocker)
                 {
                     return _instance ??= new CommandManager();
                 }
@@ -47,13 +55,15 @@ namespace AridityTeam.Base
         /// </summary>
         private CommandManager()
         {
-            _commands = new ObservableConcurrentBag<IConCommand>();
-            _conVars = new ObservableConcurrentBag<IConVar>();
+            _commands = [];
+            _conVars = [];
 
             _commands.ItemAdded += cmd => { /* Handle command added */ };
             _conVars.ItemAdded += var =>
             {
-                if (var is ConVar conVar) conVar.IsRegistered = true;
+                if (var is ConVar conVar)
+                {
+                }
             };
         }
 

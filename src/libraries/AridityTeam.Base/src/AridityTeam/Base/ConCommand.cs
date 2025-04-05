@@ -9,35 +9,44 @@
  *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
 using System;
+using AridityTeam.Base.Util;
 
 namespace AridityTeam.Base
 {
     public class ConCommand : IConCommand
     {
-        private string? _name = null;
-        private string? _helpString = null;
-        private FCVAR? _flags = null;
-        private ConCommandExecuteHandler? _executeAction = null;
+        private string? _name;
+        private string? _helpString;
+        private readonly Fcvar? _flags = null;
+        private ConCommandExecuteHandler? _executeAction;
 
         public ConCommand(string? name, ConCommandExecuteHandler? callback)
         {
-            Create(name, callback, FCVAR.NONE, null);
+            Create(name, callback, Fcvar.LogNone, null);
         }
 
-        public ConCommand(string? name, ConCommandExecuteHandler? callback, FCVAR? flags)
+        public ConCommand(string? name, ConCommandExecuteHandler? callback, Fcvar? flags)
         {
             Create(name, callback, flags, null);
         }
 
-        public ConCommand(string? name, ConCommandExecuteHandler? callback, FCVAR? flags, string? helpString)
+        public ConCommand(string? name, ConCommandExecuteHandler? callback, Fcvar? flags, string? helpString)
         {
             Create(name, callback, flags, helpString);
         }
 
         private void Create(string? name, ConCommandExecuteHandler? callback, 
-            FCVAR? flags, string? helpString)
+            Fcvar? flags, string? helpString)
         {
             _name = name;
             _executeAction = callback;
@@ -46,7 +55,7 @@ namespace AridityTeam.Base
             CommandManager.Instance.RegisterConCommand(this);
         }
 
-        public FCVAR? GetFlags()
+        public Fcvar? GetFlags()
         {
             return _flags;
         }
@@ -63,10 +72,17 @@ namespace AridityTeam.Base
 
         public void Execute(ConCommandExecuteHandler? callback, ConCommandArgs? args)
         {
-            if (callback == null) throw new ArgumentNullException(nameof(callback), "Parameter is null!");
-            if (args == null) throw new ArgumentNullException(nameof(args), "Parameter is null!");
+            try
+            {
+                if (callback == null) throw new ArgumentNullException(nameof(callback), "Parameter is null!");
+                if (args == null) throw new ArgumentNullException(nameof(args), "Parameter is null!");
 
-            callback?.Invoke(args);
+                callback.Invoke(args);
+            }
+            catch (Exception e)
+            {
+                new Logger().Log(LogSeverity.LogError, $"The command \"{_name}\" threw an exception: \"{e.Message}\"");
+            }
         }
 
         public string? GetName()

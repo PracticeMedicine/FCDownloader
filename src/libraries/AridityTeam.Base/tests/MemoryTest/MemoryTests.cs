@@ -9,10 +9,16 @@
  *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
-using System;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 using AridityTeam.Base.ProcessUtil;
 
 namespace AridityTeam.Base.Tests.MemoryTest
@@ -22,9 +28,9 @@ namespace AridityTeam.Base.Tests.MemoryTest
         [Fact]
         public void TestUncheckedMalloc_ZeroBytes()
         {
-            Memory memory = new Memory();
-            Assert.True(memory.UncheckedMalloc(0, out nint ptr));
-            Assert.NotEqual(nint.Zero, ptr); // Or handle this case as per your design
+            var memory = new Memory();
+            Assert.IsTrue(memory.UncheckedMalloc(0, out var ptr));
+            Assert.AreNotEqual(nint.Zero, ptr); // Or handle this case as per your design
             memory.Free(ptr);
 
             memory.PrintPerformanceMetrics(); // Display performance metrics
@@ -33,7 +39,7 @@ namespace AridityTeam.Base.Tests.MemoryTest
         [Fact]
         public void TestFree_NullPointer()
         {
-            Memory memory = new Memory();
+            var memory = new Memory();
             memory.Free(nint.Zero); // Should not throw
 
             memory.PrintPerformanceMetrics(); // Display performance metrics
@@ -42,9 +48,9 @@ namespace AridityTeam.Base.Tests.MemoryTest
         [Fact]
         public void TestRealloc_NullPointer()
         {
-            Memory memory = new Memory();
-            nint newPtr = memory.Realloc(nint.Zero, 100);
-            Assert.NotEqual(nint.Zero, newPtr);
+            var memory = new Memory();
+            var newPtr = memory.Realloc(nint.Zero, 100);
+            Assert.AreNotEqual(nint.Zero, newPtr);
             memory.Free(newPtr);
 
             memory.PrintPerformanceMetrics(); // Display performance metrics
@@ -53,10 +59,10 @@ namespace AridityTeam.Base.Tests.MemoryTest
         [Fact]
         public void TestRealloc_ZeroBytes()
         {
-            Memory memory = new Memory();
-            Assert.True(memory.UncheckedMalloc(100, out nint ptr));
-            nint newPtr = memory.Realloc(ptr, 0);
-            Assert.NotEqual(nint.Zero, newPtr); // Or handle this case as per your design
+            var memory = new Memory();
+            Assert.IsTrue(memory.UncheckedMalloc(100, out var ptr));
+            var newPtr = memory.Realloc(ptr, 0);
+            Assert.AreNotEqual(nint.Zero, newPtr); // Or handle this case as per your design
             memory.Free(newPtr);
 
             memory.PrintPerformanceMetrics(); // Display performance metrics
@@ -65,16 +71,16 @@ namespace AridityTeam.Base.Tests.MemoryTest
         [Fact]
         public void TestRealloc_PreserveContent()
         {
-            Memory memory = new Memory();
-            object lockObject = new object();
+            var memory = new Memory();
+            var lockObject = new object();
 
             // Allocate memory
-            Assert.True(memory.UncheckedMalloc(100, out nint ptr));
+            Assert.IsTrue(memory.UncheckedMalloc(100, out var ptr));
 
             // Write data to the allocated memory in a thread-safe manner
             lock (lockObject)
             {
-                for (int i = 0; i < 100; i++)
+                for (var i = 0; i < 100; i++)
                 {
                     Marshal.WriteByte(ptr, i, (byte)(i % 256));
                 }
@@ -86,15 +92,15 @@ namespace AridityTeam.Base.Tests.MemoryTest
             {
                 newPtr = memory.Realloc(ptr, 200);
             }
-            Assert.NotEqual(nint.Zero, newPtr);
+            Assert.AreNotEqual(nint.Zero, newPtr);
 
             // Verify that the data is preserved in a thread-safe manner
             lock (lockObject)
             {
-                for (int i = 0; i < 100; i++)
+                for (var i = 0; i < 100; i++)
                 {
-                    byte value = Marshal.ReadByte(newPtr, i);
-                    Assert.Equal((byte)(i % 256), value);
+                    var value = Marshal.ReadByte(newPtr, i);
+                    Assert.AreEqual((byte)(i % 256), value);
                 }
             }
 
@@ -107,11 +113,11 @@ namespace AridityTeam.Base.Tests.MemoryTest
         [Fact]
         public void TestGetAllocatedPointers()
         {
-            Memory memory = new Memory();
+            var memory = new Memory();
 
             // Allocate two pointers
-            Assert.True(memory.UncheckedMalloc(100, out nint ptr1));
-            Assert.True(memory.UncheckedMalloc(200, out nint ptr2));
+            Assert.IsTrue(memory.UncheckedMalloc(100, out var ptr1));
+            Assert.IsTrue(memory.UncheckedMalloc(200, out var ptr2));
 
             // Verify that both pointers are tracked
             var allocatedPointers = memory.GetAllocatedPointers();
@@ -135,9 +141,9 @@ namespace AridityTeam.Base.Tests.MemoryTest
         [Fact]
         public void TestMemoryTracking()
         {
-            Memory memory = new Memory();
-            Assert.True(memory.UncheckedMalloc(100, out nint ptr1));
-            Assert.True(memory.UncheckedMalloc(200, out nint ptr2));
+            var memory = new Memory();
+            Assert.IsTrue(memory.UncheckedMalloc(100, out var ptr1));
+            Assert.IsTrue(memory.UncheckedMalloc(200, out var ptr2));
 
             // Free one pointer and verify it's tracked correctly
             memory.Free(ptr1);
@@ -155,9 +161,9 @@ namespace AridityTeam.Base.Tests.MemoryTest
         [Fact]
         public void TestUncheckedMalloc()
         {
-            Memory memory = new Memory();
-            Assert.True(memory.UncheckedMalloc(100, out nint ptr));
-            Assert.NotEqual(nint.Zero, ptr);
+            var memory = new Memory();
+            Assert.IsTrue(memory.UncheckedMalloc(100, out var ptr));
+            Assert.AreNotEqual(nint.Zero, ptr);
             memory.Free(ptr);
 
             memory.PrintPerformanceMetrics(); // Display performance metrics
@@ -166,10 +172,10 @@ namespace AridityTeam.Base.Tests.MemoryTest
         [Fact]
         public void TestRealloc()
         {
-            Memory memory = new Memory();
-            Assert.True(memory.UncheckedMalloc(100, out nint ptr));
-            nint newPtr = memory.Realloc(ptr, 200);
-            Assert.NotEqual(nint.Zero, newPtr);
+            var memory = new Memory();
+            Assert.IsTrue(memory.UncheckedMalloc(100, out var ptr));
+            var newPtr = memory.Realloc(ptr, 200);
+            Assert.AreNotEqual(nint.Zero, newPtr);
             memory.Free(newPtr);
 
             memory.PrintPerformanceMetrics(); // Display performance metrics
@@ -178,11 +184,11 @@ namespace AridityTeam.Base.Tests.MemoryTest
         [Fact]
         public void TestFree()
         {
-            Memory memory = new Memory();
-            Assert.True(memory.UncheckedMalloc(100, out nint ptr));
+            var memory = new Memory();
+            Assert.IsTrue(memory.UncheckedMalloc(100, out var ptr));
             memory.Free(ptr);
             ptr = nint.Zero; // Nullify the pointer
-            Assert.Equal(nint.Zero, ptr);
+            Assert.AreEqual(nint.Zero, ptr);
 
             memory.PrintPerformanceMetrics(); // Display performance metrics
         }

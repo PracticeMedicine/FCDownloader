@@ -9,26 +9,34 @@
  *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
-using System;
 using System.Diagnostics;
+using AridityTeam.Base.Internal;
 
 namespace AridityTeam.Base.Util
 {
     public static class MemoryUtil
     {
-        private static AridLogger _logger = new AridLogger(typeof(MemoryUtil));
+        private static readonly Logger Logger = new();
 
         public static void CheckForMemoryLeaks(double maxMemUsage)
         {
-            HeartbeatInstance instance = new HeartbeatInstance()
+            var instance = new HeartbeatInstance()
             {
                 InstanceName = "Aridity Base Memory Checker",
                 HeartbeatTime = 3500,
                 ActionToRun = () =>
                 {
-                    _logger.Debug("Current memory usage: {0}mb", maxMemUsage);
-                    if (GetMemoryUsageInMB() > maxMemUsage)
+                    Logger.Log(LogSeverity.LogInfo, $"Current memory usage: {maxMemUsage}mb");
+                    if (GetMemoryUsageInMb() > maxMemUsage)
                     {
                         throw new PerformanceException("Exceeded max memory limit.");
                     }
@@ -38,16 +46,16 @@ namespace AridityTeam.Base.Util
             HeartbeatManager.Instance.AddInstance(instance);
         }
 
-        public static double GetMemoryUsageInMB()
+        private static double GetMemoryUsageInMb()
         {
             // Get the current process
-            Process currentProcess = Process.GetCurrentProcess();
+            var currentProcess = Process.GetCurrentProcess();
 
             // Get the memory usage in bytes
-            long memoryUsageInBytes = currentProcess.WorkingSet64; // or use PrivateMemorySize64
+            var memoryUsageInBytes = currentProcess.WorkingSet64; // or use PrivateMemorySize64
 
             // Convert bytes to megabytes
-            double memoryUsageInMegabytes = memoryUsageInBytes / (1024.0 * 1024.0);
+            var memoryUsageInMegabytes = memoryUsageInBytes / (1024.0 * 1024.0);
 
             return memoryUsageInMegabytes;
         }

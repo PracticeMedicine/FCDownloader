@@ -9,8 +9,15 @@
  *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
-using System;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -19,13 +26,16 @@ namespace AridityTeam.Base.Tests.ResourceMgrTest
     public class ResourceManagerTests
     {
         [Fact]
-        public void PrecacheTest()
+        public void Precache_AreEqualTest()
         {
-            ResourceManager resourceMgr = new ResourceManager();
+            var resourceMgr = new ResourceManager();
             
             Task.Run(async () =>
             {
-                await resourceMgr.LoadResourceAsync(Path.Combine("./Images/bf_logo.png"), true);
+                var img1 = await resourceMgr.LoadResourceAsync(Path.Combine("./Images/bf_logo.png"), true);
+                var img2 = await resourceMgr.LoadResourceAsync(Path.Combine("./Images/bf_logo.png"), true);
+                
+                Assert.AreEqual(img1, img2);
             });
         }
     }
